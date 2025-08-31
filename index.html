@@ -1,21 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Flask Neural Net Demo</title>
+  <title>CoffeeDay</title>
 </head>
 <body>
-  <h1>Neural Net Prediction</h1>
+  <h1>It's a Coffee Day!</h1>
 
-  <label>x1: <input type="number" id="x1" step="0.1"></label>
-  <label>x2: <input type="number" id="x2" step="0.1"></label>
+<div class="toggles">
+    <button class='togglebutton' value="1" onclick="assignValue(this)">1</button>
+    <button class='togglebutton' value="2" onclick="assignValue(this)">2</button>
+    <button class='togglebutton' value="3" onclick="assignValue(this)">3</button>
+    <button class='togglebutton' value="4" onclick="assignValue(this)">4</button>
+    <button class='togglebutton' value="5" onclick="assignValue(this)">5</button>
+</div>
+<div class="hc">
+    <button class="heattoggle" style="background-color: red" value="1" onclick="assignValue(this)">Hot</button>
+    <button class="heattoggle" style="background-color: blue" value="0" onclick="assignValue(this)">Cold</button>
+</div>
+<h1 id="res">Loading...</h1>
   <button onclick="predict()">Predict</button>
   <p id="result"></p>
 
   <script>
+    window.onload = function() {
+      document.querySelectorAll('.togglebutton, .heattoggle').forEach(btn => {
+        btn.dataset.orig = btn.style.backgroundColor;
+      });
+    };
+    var result = 0;
+    var x1 = x2 = 0
+    function assignValue(btn) {
+      // Find all buttons in the group
+      cName = btn.className
+      const buttons = document.querySelectorAll('.' + cName);
+      // Restore original color for all
+      buttons.forEach(b => {
+        b.style.backgroundColor = b.dataset.orig;
+      });
+      // Set active (clicked) color
+      if (cName == 'togglebutton'){
+          x1 = btn.value
+      } else {
+          x2 = btn.value
+      }
+      btn.style.backgroundColor = 'green';
+      result = `${x1} and ${x2}`
+      document.getElementById('res').textContent = result;
+      return x1, x2
+    }
     async function predict() {
-      const x1 = document.getElementById("x1").value || 0;
-      const x2 = document.getElementById("x2").value || 0;
-
       // Send a POST request to Flask
       const res = await fetch("/predict", {
         method: "POST",
