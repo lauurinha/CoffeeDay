@@ -8,6 +8,9 @@ app = Flask(__name__)
 # Route: serve the frontend HTML
 @app.route("/")
 def home():
+    return send_from_directory(".", "home.html")
+@app.route("/index.html")
+def index():
     return send_from_directory(".", "index.html")
 
 # Route: prediction endpoint
