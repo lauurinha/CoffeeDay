@@ -1,0 +1,94 @@
+body {
+  background-color: #D2A87D;
+  text-align: center;
+}
+
+.btn_home{
+  background-color: #A9845A;
+  border-width: 10px;
+  border-color: #8D6B48;
+  border-style: solid;
+  width: 250px;
+  font-family: "Pixelify Sans", sans-serif;
+  font-size: 25px;
+
+}
+.togglebutton{
+  background-color: #E8C9AB;
+  border-width: 6px;
+  border-color: #9A774F;
+  border-style: solid;
+  width: 60px;
+  height: 60px;
+  color: #9A774F;
+  font-family: "Pixelify Sans", sans-serif;
+  font-size: 25px;
+  margin-bottom: 15px;
+}
+.heattoggle{
+  background-color: #A1CAFF;
+  border-width: 6px;
+  border-color: #4F929A;
+  border-style: solid;
+  width: 155px;
+  height: 60px;
+  color: #4F929A;
+  font-family: "Pixelify Sans", sans-serif;
+  font-size: 25px;
+  margin-bottom: 15px;
+}
+h1{
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: #886E58;
+}
+
+.main{
+  margin-top: 30%;
+
+}
+.hd_home{
+    background-color: #5E3719;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 9%;
+}
+.hd_index{
+    background-color: #5E3719;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 9%;
+}
+.ft_home{
+  background-color: #5E3719;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5%;
+}
+
+.title_home{
+  color: #F5D7BD;
+}
+.divres{
+  display: flex;
+  flex-direction: row; 
+}
+.divisor{
+  border: none;
+  border-top: 5px dashed #A17D55;
+  border-radius: 5px;
+  width: 90%;
+  margin: 10px auto;
+  margin-bottom: 20px;
+  height: 0;
+  background: none;
+}
+

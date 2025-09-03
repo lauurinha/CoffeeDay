@@ -3,15 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>CoffeeDay</title>
+  <link rel="stylesheet" href="/static/styles.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Hi</h1>
-  <a href="#" onclick="window.open('index.html', 'myWin', 'width=350,height=450,resizable=no');
-">Open Window</a>
-
+  <header class="hd_home">
+    <h1 class="title_home">It's a Coffee Day !</h1>
+  </header>
+  <!-- <a href="#" onclick="window.open('index.html', 'myWin', 'width=350,height=450,resizable=no');
+">Open Window</a> -->
+  <div class="main">
+    <h1 class="textGeneral" id="greeting"/>
+    <h1 class="textGeneral"style="color: #9A774F">Let’s choose our drink !</h1>
+    <button class="btn_home" href="#" onclick="window.open('index.html', 'myWin', 'width=350,height=450,resizable=no')">
+      <h1 style="color: #5E3719">Start</h1>
+    </button>
+  </div>
+  <footer class="ft_home"/>
   <script>
-
+    const now = new Date();
+    var time = now.getHours();
+    if (time >= 0 && time < 12){
+      time = 'Morning ☀'
+    } else if (time >= 12 && time < 18){
+      time = 'Afternoon 🌅'
+    } else{
+      time = 'Evening 🌙'
+    }
+    document.getElementById('greeting').textContent = `Good ${time}`
+    
   </script>
 </body>
 </html>

@@ -2,52 +2,79 @@
 <html>
 <head>
   <title>CoffeeDay</title>
+    <link rel="stylesheet" href="/static/styles.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.1/tinycolor.min.js"></script>
 </head>
 <body>
-  <h1>It's a Coffee Day!</h1>
-
-<div class="toggles">
-    <button class='togglebutton' value="1" onclick="assignValue(this)">1</button>
-    <button class='togglebutton' value="2" onclick="assignValue(this)">2</button>
-    <button class='togglebutton' value="3" onclick="assignValue(this)">3</button>
-    <button class='togglebutton' value="4" onclick="assignValue(this)">4</button>
-    <button class='togglebutton' value="5" onclick="assignValue(this)">5</button>
-</div>
-<div class="hc">
-    <button class="heattoggle" style="background-color: red" value="1" onclick="assignValue(this)">Hot</button>
-    <button class="heattoggle" style="background-color: blue" value="0" onclick="assignValue(this)">Cold</button>
-</div>
-<h1 id="res">Loading...</h1>
-  <button onclick="predict()">Predict</button>
-  <p id="result"></p>
+  <header class="hd_index">
+    <h1 class="title_home" style="margin-top: 0;">Espresso or Latte?</h1>
+  </header>
+  <div style="margin-top: 13%;">
+    <div class="question" style="text-align: start;">
+      <h1 style="margin-bottom: 5px; font-size: 25px;">How sweet?</h1>
+      <div class="toggles" style="text-align: center;">
+          <button class='togglebutton' value="1" onclick="assignValue(this)">1</button>
+          <button class='togglebutton' value="2" onclick="assignValue(this)">2</button>
+          <button class='togglebutton' value="3" onclick="assignValue(this)">3</button>
+          <button class='togglebutton' value="4" onclick="assignValue(this)">4</button>
+          <button class='togglebutton' value="5" onclick="assignValue(this)">5</button>
+      </div>
+    </div>
+    <div class="question" style="text-align: start;">
+      <h1 style="margin-bottom: 5px; font-size: 25px;">Hot or Cold?</h1>
+      <div class="toggles" style="text-align: center;">
+          <button class="heattoggle" style="background-color: #FF9A9A; border-color: #EA6A6C; color: #EA6A6C; margin-right: 5px;" value="1" onclick="assignValue(this)">Hot</button>
+          <button class="heattoggle" value="0" onclick="assignValue(this)">Cold</button>
+      </div>
+    </div>
+    <hr class="divisor"/>
+      <button onclick="predict()" class="btn_home" style="height: 60px; width: 175px; color: #5E3719">Suggest</button>
+    <div class="divres" style="justify-content:  space-between; width: 100%; ">
+      <img src="static/assets/beans.png" style="width: 40px; transform: rotate(-15deg)"/>
+      <img src="static/assets/milk.png" style="width: 40px; transform: rotate(15deg)"/>
+    </div>
+  </div>
 
   <script>
     window.onload = function() {
       document.querySelectorAll('.togglebutton, .heattoggle').forEach(btn => {
-        btn.dataset.orig = btn.style.backgroundColor;
+        btn.dataset.origStyle = btn.getAttribute('style') || '';
       });
     };
     var result = 0;
     var x1 = x2 = 0
+    function darkenElementColors(element) {
+    let styles = getComputedStyle(element);
+
+    let borderColor = tinycolor(styles.borderColor).darken(20).toString();
+    let fontColor = tinycolor(styles.color).darken(20).toString();
+    let bgColor = tinycolor(styles.backgroundColor).darken(20).toString();
+
+    element.style.borderColor = borderColor;
+    element.style.color = fontColor;
+    element.style.backgroundColor = bgColor;
+  }
+
+
     function assignValue(btn) {
-      // Find all buttons in the group
       cName = btn.className
       const buttons = document.querySelectorAll('.' + cName);
-      // Restore original color for all
       buttons.forEach(b => {
-        b.style.backgroundColor = b.dataset.orig;
+        b.setAttribute('style', b.dataset.origStyle || '');
       });
-      // Set active (clicked) color
-      if (cName == 'togglebutton'){
-          x1 = btn.value
+      darkenElementColors(btn);
+
+      if (cName == 'togglebutton') {
+        x1 = btn.value;
       } else {
-          x2 = btn.value
+        x2 = btn.value;
       }
-      btn.style.backgroundColor = 'green';
-      result = `${x1} and ${x2}`
-      document.getElementById('res').textContent = result;
-      return x1, x2
+      return x1, x2;
     }
+
     async function predict() {
       // Send a POST request to Flask
       const res = await fetch("/predict", {
@@ -58,12 +85,43 @@
 
       const data = await res.json();
       if (data.prediction == 0) {
-        pred = 'Espresso'
+        pred = ' Espresso'
+        predt = 'n Espresso'
+        content = 'Short, strong, and made to power up your day—just like you.'
+        img1 = 'espresso_1.png'
+        img2 = 'espresso_2.png'
       } else {
-        pred = 'Latte'
+        pred = predt = ' Latte'
+        content = 'For when you crave calm, this creamy cup matches your mellow mood.'
+        img1 = 'latte_hot.png'
+        img2 = 'latte_cold.png'
       }
-      document.getElementById("result").textContent =
-        "Prediction: " + pred;
+
+      let win = window.open('', '', 'width=350,height=450,resizable=no')
+      win.document.write(`
+        <html>
+        <head>
+          <title>${pred}</title>
+          <link rel="stylesheet" href="/static/styles.css"/>
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+        </head>
+        <body style="text-align:center">
+          <header class="hd_index" style="text-align: start">
+            <h1 class="title_home" style="margin-top: 0;"> ${pred} !</h1>
+          </header>
+          <div style="text-align: start; margin-left: 3px;">
+            <h1 style="margin-top: 43px; font-size: 20px">Our suggestion for you today is a${predt} !</h1>
+          </div>
+          <h1 style="color: #5E3719; font-size: 25px; width: 275px; text-align: center; margin-left: 25px">${content}</h1>
+          <div class="divres" style="display: flex; justify-content: center; align-items: center; background: radial-gradient(circle 80px at center, #886e58c0 25%, transparent 75%); margin-top: 20px;">
+            <img src="static/assets/${img1}" style="width: 95px; height: 95px; transform: rotate(-30deg); margin: 0;" />
+            <img src="static/assets/${img2}" style="width: 100px; height: 100px; transform: rotate(30deg); margin: 0;" />
+          </div>
+        </body>
+        </html>
+      `)
     }
   </script>
 </body>
